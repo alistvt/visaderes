@@ -54,15 +54,24 @@ class Reserver:
         
         if self.type == VisaType.schengen:
             self.driver.find_element(By.XPATH,'//*[@id="schengenBtn"]').click()
+            self.driver.find_element(By.XPATH,'//*[@id="schengenBtn"]').click()
+            sleep(1)
+            self.driver.find_element(By.XPATH,'//*[@id="result0"]').click()
+            sleep(1)
+            self.driver.find_element(By.XPATH,'//*[@id="result1"]').click()
         elif self.type == VisaType.legal:
             self.driver.find_element(By.XPATH,'//*[@id="legalizationBtn"]').click()
+            sleep(3)
+            self.driver.find_element(By.XPATH,'//*[@id="result0"]').click()
+            sleep(3)
+            self.driver.find_element(By.XPATH,'//*[@id="result1"]').click()
         elif self.type == VisaType.student:
             self.driver.find_element(By.XPATH,'//*[@id="nationalBtn"]').click()
+            sleep(3)
+            self.driver.find_element(By.XPATH,'//*[@id="result1"]').click()
+            sleep(3)
+            self.driver.find_element(By.XPATH,'//*[@id="result3"]').click()
         
-        sleep(1)
-        self.driver.find_element(By.XPATH,'//*[@id="result0"]').click()
-        sleep(1)
-        self.driver.find_element(By.XPATH,'//*[@id="result1"]').click()
         WebDriverWait(self.driver, 200).until(lambda d: d.find_element(By.CSS_SELECTOR,".antigate_solver.solved"))
         print('captcha solved')
         self.driver.find_element(By.XPATH,'//*[@id="btnSubmit"]').click()
@@ -146,21 +155,17 @@ class ReservationHandler:
         reserver = Reserver(file_path, visa_type)
         reserver.reserve()
 
-    def validate_file_name(file_name):
+    def validate_file_name(self, file_name):
         return file_name in ['student.yaml', 'schengen.yaml', 'legal.yaml']
 
-    def validate_file(file_path):
-        # TODO
+    def validate_file(self, file_path):
+        # TODO: حتما باید اعداد کمتر از ده قبلش صفر گذاشته شه که دو رقمی شه اگه نه خطا میده!!
+        # 8 --> 08
         return True
 
 
 if __name__ == '__main__':
-    reserver = Reserver(cv.BASE_FILES_PATH / 'student.yaml')
-    reserver.reserve()
+    print(ReservationHandler().handle(VisaType.student))
 
 else:
     reservation_handler = ReservationHandler()
-
-
-
-
