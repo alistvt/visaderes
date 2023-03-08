@@ -51,5 +51,4 @@ def my_handler(client, message):
         elif message.chat.id == -1001751602852:
           client.send_message(STUDENT_ADMINS_GROUP_ID, message.text)
 
-
 app.run()
